@@ -111,12 +111,22 @@ Notebooks only call repo functions. A notebook in `notebooks/vignettes/`
 defines no function of its own: a function needed there is written in `lib/`
 with a unit test first, then imported.
 
-## Literature: `00-references` on the output node
+## Literature: `00-references/habitability_refs` on the output node
 
 The literature review and the full-text paper extractions are not kept in
-this repo. They live under `<project_output_root>/00-references`
-(`REFERENCES_DIR` in `constants.py`) and are added by Bobby. Consult them when
-designing an analysis.
+this repo. They live under
+`<project_output_root>/00-references/habitability_refs/` (`REFERENCES_DIR` and
+`LITERATURE_DIR` in `constants.py`) and are maintained by Bobby:
+
+- `Habitability & the Human Niche — Literature Review and Data Landscape.md`:
+  the review.
+- `txt/`: plain-text extractions of the papers, used for quoting. Filenames
+  match the review's reference list.
+- `pdf/`: the original PDFs.
+- `README.md`: which papers are text-only, and which are preprint or
+  working-paper versions.
+
+Consult them when designing an analysis.
 
 - Each source in the review carries a tag: **(R)** read in full, **(A)**
   abstract only, **(N)** not opened.
