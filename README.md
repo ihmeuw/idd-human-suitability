@@ -85,6 +85,7 @@ Each such location is a separate key in `paths.yaml`:
 | `climate_root` | annual climate grids (ERA5-based historical; downscaled scenario draws) | `raw/historical/<variable>/<year>_era5.nc`, `<scenario>/<variable>/<draw>.nc` |
 | `building_tiles_root` | building tiles at 40 m and 100 m (GHSL, Microsoft) | `<resolution>m/<source>/<period>/<block>_<band>.tif`, `<resolution>m/tile_index.parquet` |
 | `population_root` | gridded population, 1950 to 2100 | `<version>/<crs>_<resolution>/<year>q1.tif` |
+| `raking_root` | GBD, LSAE and FHS location hierarchies | `gbd-inputs/hierarchy_<name>.parquet` |
 | `overture_water_root` | Overture water polygons | `<water class>.parquet` |
 | `admin2_income_root` | admin-2 income and consumption forecast tables | file names in `constants.py` |
 

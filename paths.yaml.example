@@ -31,6 +31,10 @@ building_tiles_root: /your/cluster/path/building-density/tiles
 # <version> is "current" or a dated release.
 population_root: /your/cluster/path/population-model/results
 
+# Location hierarchies and raking shapes: gbd-inputs/hierarchy_<name>.parquet
+# and the shapes files beside them.
+raking_root: /your/cluster/path/population-model/admin-inputs/raking
+
 # Water polygons, one GeoParquet file per water class.
 overture_water_root: /your/cluster/path/overture/water
 

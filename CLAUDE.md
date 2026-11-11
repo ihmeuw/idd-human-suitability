@@ -103,6 +103,7 @@ Most data does not live on the node (Bobby, 2026-11-11):
   | `climate_root` | annual climate grids: historical by year, scenarios by draw |
   | `building_tiles_root` | building tiles at 40 m and 100 m, with the tile index |
   | `population_root` | gridded population by version, CRS and resolution, one file per year 1950 to 2100 |
+  | `raking_root` | GBD, LSAE and FHS location hierarchies and raking shapes |
   | `overture_water_root` | water polygons, one GeoParquet file per water class |
   | `admin2_income_root` | admin-2 LDIpc, GDPpc, median consumption and consumption distribution forecasts |
 
