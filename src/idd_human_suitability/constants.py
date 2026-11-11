@@ -19,6 +19,8 @@ CLIMATE_ROOT_KEY: Final = "climate_root"
 """Annual climate grids, historical and by scenario."""
 BUILDING_TILES_ROOT_KEY: Final = "building_tiles_root"
 """Building tiles and their tile index, by resolution."""
+POPULATION_ROOT_KEY: Final = "population_root"
+"""Gridded population results, by version, CRS and resolution."""
 OVERTURE_WATER_ROOT_KEY: Final = "overture_water_root"
 """Water polygons, one GeoParquet file per water class."""
 ADMIN2_INCOME_ROOT_KEY: Final = "admin2_income_root"
@@ -33,6 +35,17 @@ CLIMATE_SCENARIO_FILE: Final = "{scenario}/{variable}/{draw}.nc"
 # disk on 2026-11-11 for one source and period at 100 m.
 TILE_INDEX_FILE: Final = "{resolution}m/tile_index.parquet"
 BUILDING_TILE_FILE: Final = "{resolution}m/{source}/{period}/{block_key}_{band}.tif"
+
+# Population: <population_root>/<fragment>. Confirmed on disk on 2026-11-11: one file per
+# year, named <year>q1.tif. ``version`` is a dated release or POPULATION_CURRENT_VERSION, a
+# link that moves when a new release is promoted. The 100 m files are virtual mosaics of the
+# model's tiles, so a window read touches only the tiles it covers.
+POPULATION_FILE: Final = "{version}/{crs}_{resolution}/{year}q1.tif"
+POPULATION_CURRENT_VERSION: Final = "current"
+POPULATION_CRS_EQUAL_AREA: Final = "world_cylindrical"
+"""Folder label of the equal-area grids (metres; resolutions 100 and 1000)."""
+POPULATION_CRS_WGS84: Final = "wgs84"
+"""Folder label of the lon/lat grids (degrees; resolutions 0p1 and 0p01)."""
 
 # Overture water: <overture_water_root>/<fragment>
 OVERTURE_WATER_FILE: Final = "{water_class}.parquet"

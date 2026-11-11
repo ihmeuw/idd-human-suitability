@@ -102,6 +102,7 @@ Most data does not live on the node (Bobby, 2026-11-11):
   | `admin_shapefile_root` | admin boundary shapefiles, one dated release folder per release |
   | `climate_root` | annual climate grids: historical by year, scenarios by draw |
   | `building_tiles_root` | building tiles at 40 m and 100 m, with the tile index |
+  | `population_root` | gridded population by version, CRS and resolution, one file per year 1950 to 2100 |
   | `overture_water_root` | water polygons, one GeoParquet file per water class |
   | `admin2_income_root` | admin-2 LDIpc, GDPpc, median consumption and consumption distribution forecasts |
 
@@ -117,6 +118,10 @@ Most data does not live on the node (Bobby, 2026-11-11):
 
 Never assume a dataset sits under the node: look up its root key. No dataset
 is read from the `geospatial` share other than `intermediate_root` itself.
+
+Resolution: work is at 100 m for now. There is no 40 m "anything" yet as far
+as this project is concerned, even where 40 m folders exist on disk; ignore
+them until Bobby says otherwise (Bobby, 2026-11-11).
 
 Stage folders in the repo (`src/idd_human_suitability/NN_<name>/`) are a
 different matter: none is created until there is a clear pipeline (Bobby,

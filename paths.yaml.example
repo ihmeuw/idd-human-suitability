@@ -27,6 +27,10 @@ climate_root: /your/cluster/path/climate/annual
 # tile index at <resolution>m/tile_index.parquet.
 building_tiles_root: /your/cluster/path/building-density/tiles
 
+# Gridded population results: <version>/<crs>_<resolution>/<year>q1.tif, where
+# <version> is "current" or a dated release.
+population_root: /your/cluster/path/population-model/results
+
 # Water polygons, one GeoParquet file per water class.
 overture_water_root: /your/cluster/path/overture/water
 
