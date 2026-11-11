@@ -20,8 +20,12 @@ mixed.
   idiom.
 - **Session start:** there is no env to activate. Use `.venv/bin/python`
   directly.
-- **Sync idiom:** `uv sync --inexact` day-to-day; plain `uv sync` (exact) for
-  clean rebuilds, vetted first with `uv sync --dry-run`.
+- **Sync idiom:** `uv sync --inexact --extra jobmon` day-to-day; plain
+  `uv sync --extra jobmon` (exact) for clean rebuilds, vetted first with
+  `uv sync --dry-run --extra jobmon`. Without `--extra jobmon` an exact sync
+  removes the jobmon client.
+- **jobmon:** orchestrators are submitted from the .venv, and worker command
+  templates invoke `.venv/bin/python` by absolute path.
 - Interpreter downloads are deliberate only: the user-level uv policy is
   `python-downloads = "manual"` — a plain `uv venv`/`uv sync` must never
   trigger a CPython download.
@@ -48,8 +52,12 @@ packages; this repo imports it.
   (through `/consume-idd-repo`). They are installed at base. An extra of a
   sibling (`idd-figures[maps]`, `idd-spatial-analysis[rasterra]`, …) is
   requested when code here first uses the part that needs it, not before.
-- Jobmon is not declared yet. When this repo first drives Slurm it becomes
-  this repo's own `jobmon` extra, with the IHME index block; CI never syncs it.
+- Jobmon is this repo's own `jobmon` extra (`idd-tools[jobmon]`), declared
+  exactly as idd-travel-time declares it: the extra, the `ihme` index block
+  and the `jobmon_installer_ihme` source pin. The cluster env is synced with
+  `--extra jobmon`; CI syncs without it, because a GitHub runner cannot reach
+  the IHME index. `idd_tools.jobmon` needs the extra; `idd_tools.versions`
+  does not.
 - Third-party packages are added to `dependencies` when code here first
   imports them, with Bobby's approval, floors only.
 

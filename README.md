@@ -45,6 +45,15 @@ GitHub over SSH and pinned to their `main` branch:
 
 `uv sync` therefore needs a GitHub SSH key, and read access to `idd-tools`.
 
+Cluster job orchestration uses jobmon, which is an optional extra served only
+by IHME's internal package index. Inside the IHME network:
+
+```bash
+uv sync --extra jobmon
+```
+
+Everything that does not submit cluster jobs works without it.
+
 Generic spatial, figure and job-orchestration code is imported from these
 packages and is not reimplemented here. This repository holds what is specific
 to the project.

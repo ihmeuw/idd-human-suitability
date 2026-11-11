@@ -17,11 +17,11 @@ dependencies = [
     "pyyaml>=6",             # paths.yaml loader
 ]
 
-# Jobmon is NOT a default. When this repo first drives Slurm via jobmon it
-# declares a `jobmon` extra with the exact coordinated pin, plus the IHME
-# [[tool.uv.index]] block and a [tool.uv.sources] index pin, and syncs with
-# `--extra jobmon`. Until then nothing jobmon-related is declared: a stray
-# internal index breaks resolution on a public CI runner.
+[project.optional-dependencies]
+# Cluster orchestration through idd_tools.jobmon. Jobmon is an optional extra,
+# never core; CI syncs without it. On the cluster:
+#   uv sync --extra jobmon
+jobmon = ["idd-tools[jobmon]"]
 
 # Cross-repo idd-* dependencies are a bare name in `dependencies` plus a
 # [tool.uv.sources] entry pinned to branch = "main" — never unpinned (an
@@ -32,6 +32,15 @@ dependencies = [
 idd-spatial-analysis = { git = "ssh://git@github.com/ihmeuw/idd-spatial-analysis.git", branch = "main" }
 idd-figures = { git = "ssh://git@github.com/ihmeuw/idd-figures.git", branch = "main" }
 idd-tools = { git = "ssh://git@github.com/ihmeuw/idd-tools.git", branch = "main" }
+# Belt-and-braces: force the internal jobmon installer to the ihme index even
+# if index order ever changes (scaffold-repo template, verbatim).
+jobmon_installer_ihme = { index = "ihme" }
+
+# IHME artifactory, consulted before PyPI for internal names (scaffold-repo
+# template, verbatim). Only the jobmon extra resolves from it.
+[[tool.uv.index]]
+name = "ihme"
+url = "https://artifactory.ihme.washington.edu/artifactory/api/pypi/pypi-shared/simple"
 
 [dependency-groups]
 dev = [
