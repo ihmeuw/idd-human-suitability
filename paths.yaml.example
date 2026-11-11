@@ -2,14 +2,38 @@
 #   cp paths.yaml.example paths.yaml
 # paths.yaml is the only file in the repo that holds absolute paths. Code builds
 # every path as <root from this file> / <relative fragment from constants.py>.
+# Key names are constants in src/idd_human_suitability/constants.py.
+
+# --- Outputs -----------------------------------------------------------------
 
 # Root of this project's output node (00-references, 01-raw_data,
 # 02-processed_data, 03-output).
 project_output_root: /your/cluster/path/idd-human-suitability
 
-# Input data and large intermediate files mostly live outside the output node.
-# Each such location gets its own key below; no data location is written
-# anywhere but in this file.
+# Root for the large intermediate files, which do not go on the output node.
+intermediate_root: /your/cluster/path/human-suitability-intermediates
+
+# --- Inputs (read-only) ------------------------------------------------------
+
+# Admin boundary shapefiles: one dated release folder per release below it.
+admin_shapefile_root: /your/cluster/path/admin_shapefiles
+
+# Annual climate grids:
+#   raw/historical/<variable>/<year>_era5.nc
+#   <scenario>/<variable>/<draw>.nc
+climate_root: /your/cluster/path/climate/annual
+
+# Building tiles: <resolution>m/<source>/<period>/<block>_<band>.tif, with the
+# tile index at <resolution>m/tile_index.parquet.
+building_tiles_root: /your/cluster/path/building-density/tiles
+
+# Water polygons, one GeoParquet file per water class.
+overture_water_root: /your/cluster/path/overture/water
+
+# Admin-2 income and consumption forecast tables (file names in constants.py).
+admin2_income_root: /your/cluster/path/admin2_income_forecasts
+
+# --- Session write grants ----------------------------------------------------
 
 # Keys (from this file) of roots an automated coding session may write under,
 # beyond the repo and the output node. Pipeline code ignores this entry.

@@ -93,13 +93,30 @@ top-level folders are `00-references`, `01-raw_data`, `02-processed_data` and
 Most data does not live on the node (Bobby, 2026-11-11):
 
 - **Inputs:** there are many, and most are not under `01-raw_data`. Each
-  input location is its own root key in `paths.yaml`, read-only.
-- **Big intermediates:** only some processed data is written to
-  `02-processed_data`. The large intermediate files go to more than one other
-  root. Each is its own key in `paths.yaml`, and a session writes there only
-  when that key is in the file's `write:` list.
+  input location is its own root key in `paths.yaml`, read-only whatever the
+  filesystem permissions say. Recorded so far (key names and the file layouts
+  below each root are in `constants.py`):
 
-Never assume a dataset sits under the node: look up its root key.
+  | Key | What is under it |
+  |---|---|
+  | `admin_shapefile_root` | admin boundary shapefiles, one dated release folder per release |
+  | `climate_root` | annual climate grids: historical by year, scenarios by draw |
+  | `building_tiles_root` | building tiles at 40 m and 100 m, with the tile index |
+  | `overture_water_root` | water polygons, one GeoParquet file per water class |
+  | `admin2_income_root` | admin-2 LDIpc, GDPpc, median consumption and consumption distribution forecasts |
+
+- **Big intermediates:** only some processed data is written to
+  `02-processed_data`. The large intermediate files go to `intermediate_root`
+  (more roots may follow; each is its own key). A session writes there only
+  when the key is in the `write:` list of `paths.yaml`. It is on a shared
+  mount: there a session may add new files but never overwrites, deletes,
+  moves or renames existing ones; propose the change and let Bobby do it.
+- **Size tally:** Bobby wants a running tally of how big `intermediate_root`
+  is. Every stage that writes there records the folder's size afterwards. The
+  mechanism is not built yet; build it with the first stage that writes there.
+
+Never assume a dataset sits under the node: look up its root key. No dataset
+is read from the `geospatial` share other than `intermediate_root` itself.
 
 Stage folders in the repo (`src/idd_human_suitability/NN_<name>/`) are a
 different matter: none is created until there is a clear pipeline (Bobby,

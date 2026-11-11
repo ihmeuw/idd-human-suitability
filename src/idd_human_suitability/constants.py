@@ -8,9 +8,44 @@ from __future__ import annotations
 
 from typing import Final
 
-# Keys of paths.yaml
+# Keys of paths.yaml. Every key is documented in paths.yaml.example.
 OUTPUT_ROOT_KEY: Final = "project_output_root"
 """Root of this project's output node."""
+INTERMEDIATE_ROOT_KEY: Final = "intermediate_root"
+"""Root for the large intermediate files, which do not go on the output node."""
+ADMIN_SHAPEFILE_ROOT_KEY: Final = "admin_shapefile_root"
+"""Admin boundary shapefiles: ``<root>/<release>/``, one dated folder per release."""
+CLIMATE_ROOT_KEY: Final = "climate_root"
+"""Annual climate grids, historical and by scenario."""
+BUILDING_TILES_ROOT_KEY: Final = "building_tiles_root"
+"""Building tiles and their tile index, by resolution."""
+OVERTURE_WATER_ROOT_KEY: Final = "overture_water_root"
+"""Water polygons, one GeoParquet file per water class."""
+ADMIN2_INCOME_ROOT_KEY: Final = "admin2_income_root"
+"""Admin-2 income and consumption forecast tables."""
+
+# Climate: <climate_root>/<fragment>. Both layouts were confirmed on disk on 2026-11-11
+# (historical years as four digits, draws as three zero-padded digits).
+CLIMATE_HISTORICAL_FILE: Final = "raw/historical/{variable}/{year}_era5.nc"
+CLIMATE_SCENARIO_FILE: Final = "{scenario}/{variable}/{draw}.nc"
+
+# Building tiles: <building_tiles_root>/<fragment>. The tile file layout was confirmed on
+# disk on 2026-11-11 for one source and period at 100 m.
+TILE_INDEX_FILE: Final = "{resolution}m/tile_index.parquet"
+BUILDING_TILE_FILE: Final = "{resolution}m/{source}/{period}/{block_key}_{band}.tif"
+
+# Overture water: <overture_water_root>/<fragment>
+OVERTURE_WATER_FILE: Final = "{water_class}.parquet"
+
+# Admin-2 income and consumption forecasts: <admin2_income_root>/<filename>
+ADMIN2_LDIPC_FILENAME: Final = "LSAEadmin2_ldipc_mean_forecasts_scenarios_2010PPP.csv"
+ADMIN2_GDPPC_FILENAME: Final = "LSAEadmin2_gdppc_mean_forecasts_scenarios_2010PPP.csv"
+ADMIN2_MEDIAN_CONSUMPTION_FILENAME: Final = (
+    "LSAEadmin2_median_consumppc_forecasts_scenarios_2021PPP_fixQAT.csv"
+)
+ADMIN2_CONSUMPTION_DISTRIBUTION_FILENAME: Final = (
+    "admin2_consumppc_distribution_estimates_scenarios_fixQAT.csv"
+)
 
 # Top-level folders of the output node: <project_output_root>/<folder>
 REFERENCES_DIR: Final = "00-references"

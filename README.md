@@ -76,7 +76,18 @@ created on a new machine:
 ```
 
 Most input data, and the large intermediate files, live outside this root.
-Each such location is a separate key in `paths.yaml`.
+Each such location is a separate key in `paths.yaml`:
+
+| Key | What it points at | Layout below it |
+|---|---|---|
+| `intermediate_root` | large intermediate files written by this project | |
+| `admin_shapefile_root` | admin boundary shapefiles | `<release>/` |
+| `climate_root` | annual climate grids (ERA5-based historical; downscaled scenario draws) | `raw/historical/<variable>/<year>_era5.nc`, `<scenario>/<variable>/<draw>.nc` |
+| `building_tiles_root` | building tiles at 40 m and 100 m (GHSL, Microsoft) | `<resolution>m/<source>/<period>/<block>_<band>.tif`, `<resolution>m/tile_index.parquet` |
+| `overture_water_root` | Overture water polygons | `<water class>.parquet` |
+| `admin2_income_root` | admin-2 income and consumption forecast tables | file names in `constants.py` |
+
+All input roots are read-only for this project.
 
 ## Tests and checks
 
