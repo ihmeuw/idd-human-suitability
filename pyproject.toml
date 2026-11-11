@@ -1,0 +1,88 @@
+[project]
+name = "idd-human-suitability"
+version = "0.1.0"
+description = "Global, gridded, time-varying habitability metrics (climate-niche and HDI-style), 1950 to 2100"
+authors = [{ name = "Bobby Reiner" }]
+readme = "README.md"
+requires-python = ">=3.12,<4"
+dependencies = [
+    # Floors only — no speculative upper caps. Cap only at a version that is
+    # tested and actually breaks, at that known number.
+    # Sibling idd-* repos: bare names, no version spec (uv.lock pins the commit).
+    # Base packages only; an extra is requested when code here first uses the
+    # part of the sibling that needs it.
+    "idd-spatial-analysis",  # raster windows, regridding, admin boundaries, zonal statistics
+    "idd-figures",           # figure templates and shared plotting functions
+    "idd-tools",             # output versioning (idd-versions), atomic IO; jobmon stays behind its extra
+    "pyyaml>=6",             # paths.yaml loader
+]
+
+# Jobmon is NOT a default. When this repo first drives Slurm via jobmon it
+# declares a `jobmon` extra with the exact coordinated pin, plus the IHME
+# [[tool.uv.index]] block and a [tool.uv.sources] index pin, and syncs with
+# `--extra jobmon`. Until then nothing jobmon-related is declared: a stray
+# internal index breaks resolution on a public CI runner.
+
+# Cross-repo idd-* dependencies are a bare name in `dependencies` plus a
+# [tool.uv.sources] entry pinned to branch = "main" — never unpinned (an
+# unpinned git source follows the remote HEAD, i.e. GitHub's default branch).
+# One [tool.uv.sources] table per file.
+# Bump one: uv lock --upgrade-package <name>
+[tool.uv.sources]
+idd-spatial-analysis = { git = "ssh://git@github.com/ihmeuw/idd-spatial-analysis.git", branch = "main" }
+idd-figures = { git = "ssh://git@github.com/ihmeuw/idd-figures.git", branch = "main" }
+idd-tools = { git = "ssh://git@github.com/ihmeuw/idd-tools.git", branch = "main" }
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+    "pre-commit",
+    "ipykernel>=7",  # lets the .venv register as a Jupyter kernel; dev group so package consumers don't inherit it
+]
+
+[build-system]
+# uv_build is 0.x; upstream promises compatibility only within a minor, so the
+# bracket is a known constraint, not a speculative cap. Keep at current minor.
+requires = ["uv_build>=0.12,<0.13"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+src = ["src"]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "COM812",   # trailing comma — formatter handles
+    "ISC001",   # implicit string concat — formatter handles
+    "ANN",      # type hints — mypy handles
+    "D",        # docstrings — too strict for research code
+    "E501",     # line length — formatter handles
+    "RET505",   # else after return — style preference, sometimes clearer
+    "CPY",      # copyright headers — not used in idd-* repos (CPY001 fires under ALL on current ruff)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/**" = [
+    "INP001",  # scripts are not a package — no __init__.py needed
+    "T201",    # print() is the legitimate output mechanism for CLI scripts
+]
+"tests/**" = [
+    "S101",    # assert in tests
+    "ARG",     # fixture / parametrize args are sometimes unused in some cases
+    "S105",    # hardcoded passwords in tests
+    "PLR2004", # magic values are normal in test assertions
+]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

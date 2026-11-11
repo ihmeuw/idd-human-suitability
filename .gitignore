@@ -1,0 +1,58 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environments
+.venv/
+venv/
+env/
+
+# IDE
+# Commit the VSCode workspace settings (relative interpreter pin only);
+# ignore the rest.
+.vscode/*
+!.vscode/settings.json
+.idea/
+*.swp
+.DS_Store
+
+# NFS sillyrename tombstones
+.nfs*
+
+# mypy / ruff caches
+.mypy_cache/
+.ruff_cache/
+
+# Machine-specific absolute paths — never commit. `paths.yaml.example` is the
+# committed template.
+paths.yaml
+.Renviron
+
+# Secrets — never commit. `.env.example` is the documented template.
+.env
+.env.*
+!.env.example
+
+# Generated config — keep the directory, ignore its contents
+config/*
+!config/.gitkeep
+
+# Claude Code working files — local-only, not part of git history.
+.claude/

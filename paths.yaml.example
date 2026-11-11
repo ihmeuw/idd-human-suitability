@@ -1,0 +1,11 @@
+# Copy to paths.yaml (gitignored) and edit for your machine:
+#   cp paths.yaml.example paths.yaml
+# paths.yaml is the only file in the repo that holds absolute paths. Code builds
+# every path as <root from this file> / <relative fragment from constants.py>.
+
+# Root of this project's output node. Stage outputs are written below it.
+project_output_root: /your/cluster/path/idd-human-suitability
+
+# Keys (from this file) of roots an automated coding session may write under,
+# beyond the repo and the output node. Pipeline code ignores this entry.
+write: []
