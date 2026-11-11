@@ -68,7 +68,6 @@ packages; this repo imports it.
 - `notebooks/vignettes/`: committed walkthroughs. `notebooks/scratch/`:
   exploration.
 - `scripts/`: job-submission entry points. `config/`: generated YAML, ignored.
-- `docs/literature/`: the literature review and paper extractions (below).
 
 ## Paths
 
@@ -79,17 +78,37 @@ is the committed template. Code builds every path as
 `paths.yaml` key typed anywhere other than `constants.py` is a defect.
 `paths.yaml` changes only when Bobby says so.
 
+Outputs: the project output node is the `project_output_root` key. Its
+top-level folders are `00-references`, `01-raw_data`, `02-processed_data` and
+`03-output` (names in `constants.py`).
+
+Most data does not live on the node (Bobby, 2026-11-11):
+
+- **Inputs:** there are many, and most are not under `01-raw_data`. Each
+  input location is its own root key in `paths.yaml`, read-only.
+- **Big intermediates:** only some processed data is written to
+  `02-processed_data`. The large intermediate files go to more than one other
+  root. Each is its own key in `paths.yaml`, and a session writes there only
+  when that key is in the file's `write:` list.
+
+Never assume a dataset sits under the node: look up its root key.
+
+Stage folders in the repo (`src/idd_human_suitability/NN_<name>/`) are a
+different matter: none is created until there is a clear pipeline (Bobby,
+2026-11-11).
+
 ## Notebooks
 
 Notebooks only call repo functions. A notebook in `notebooks/vignettes/`
 defines no function of its own: a function needed there is written in `lib/`
 with a unit test first, then imported.
 
-## Literature: `docs/literature/`
+## Literature: `00-references` on the output node
 
-The literature review and the full-text paper extractions live in
-`docs/literature/` and are added by Bobby. Consult them when designing an
-analysis.
+The literature review and the full-text paper extractions are not kept in
+this repo. They live under `<project_output_root>/00-references`
+(`REFERENCES_DIR` in `constants.py`) and are added by Bobby. Consult them when
+designing an analysis.
 
 - Each source in the review carries a tag: **(R)** read in full, **(A)**
   abstract only, **(N)** not opened.

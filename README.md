@@ -17,7 +17,6 @@ notebooks/
   scratch/         exploration
 scripts/           job-submission entry points
 config/            generated YAML config (ignored by git)
-docs/literature/   literature review and full-text paper extractions
 ```
 
 ## Setup
@@ -57,6 +56,19 @@ which git ignores; `paths.yaml.example` is the template and documents each
 key. Code builds a path as a root from `paths.yaml` joined to a relative
 fragment from `constants.py`.
 
+The output root (`project_output_root`) holds four top-level folders, to be
+created on a new machine:
+
+```
+00-references/
+01-raw_data/
+02-processed_data/
+03-output/
+```
+
+Most input data, and the large intermediate files, live outside this root.
+Each such location is a separate key in `paths.yaml`.
+
 ## Tests and checks
 
 ```bash
@@ -67,8 +79,3 @@ fragment from `constants.py`.
 
 `tests/qc/` holds pipeline-level checks that need the real data and are run
 after a stage completes, not as part of the unit tests.
-
-## Literature
-
-`docs/literature/` holds the literature review and full-text paper
-extractions; its README states the source-tag convention.

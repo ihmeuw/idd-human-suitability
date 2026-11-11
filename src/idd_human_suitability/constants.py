@@ -11,3 +11,9 @@ from typing import Final
 # Keys of paths.yaml
 OUTPUT_ROOT_KEY: Final = "project_output_root"
 """Root of this project's output node."""
+
+# Top-level folders of the output node: <project_output_root>/<folder>
+REFERENCES_DIR: Final = "00-references"
+RAW_DATA_DIR: Final = "01-raw_data"
+PROCESSED_DATA_DIR: Final = "02-processed_data"
+OUTPUT_DIR: Final = "03-output"
