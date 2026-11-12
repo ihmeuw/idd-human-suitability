@@ -61,6 +61,18 @@ REGION_NAME_COLUMN: Final = "region_name"
 # (historical years as four digits, draws as three zero-padded digits).
 CLIMATE_HISTORICAL_FILE: Final = "raw/historical/{variable}/{year}_era5.nc"
 CLIMATE_SCENARIO_FILE: Final = "{scenario}/{variable}/{draw}.nc"
+# Inside a climate file: one data variable on (year, latitude, longitude), one year per file.
+CLIMATE_VALUE_VARIABLE: Final = "value"
+CLIMATE_YEAR_DIM: Final = "year"
+CLIMATE_LATITUDE_DIM: Final = "latitude"
+CLIMATE_LONGITUDE_DIM: Final = "longitude"
+# Climate variables in use (folder names under raw/historical/), set by Bobby 2026-11-11.
+CLIMATE_MEAN_TEMPERATURE: Final = "mean_temperature"
+"""Annual mean temperature. Values are on a degree Celsius scale (2020: -52 to 34); the file
+states no unit."""
+CLIMATE_TOTAL_PRECIPITATION: Final = "total_precipitation"
+"""Annual total precipitation. Values are on a millimetre-per-year scale (2020: 0 to 28,340)
+although the file's ``units`` attribute says ``m``."""
 
 # Building tiles: <building_tiles_root>/<fragment>. The tile file layout was confirmed on
 # disk on 2026-11-11 for one source and period at 100 m.
