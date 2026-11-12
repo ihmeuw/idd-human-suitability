@@ -12,9 +12,16 @@ dependencies = [
     # Base packages only; an extra is requested when code here first uses the
     # part of the sibling that needs it.
     "idd-spatial-analysis",  # raster windows, regridding, admin boundaries, zonal statistics
-    "idd-figures",           # figure templates and shared plotting functions
+    "idd-figures[maps]",     # figure templates; the maps extra (cartopy) is used by lib/figures
     "idd-tools",             # output versioning (idd-versions), atomic IO; jobmon stays behind its extra
     "pyyaml>=6",             # paths.yaml loader
+    # Imported directly by lib/. All arrive with the siblings above; declared because a
+    # package imported here is a dependency of this repo, not only of a sibling.
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "pyarrow>=19",
+    "geopandas>=1.0",
+    "matplotlib>=3.8",
 ]
 
 [project.optional-dependencies]
@@ -80,6 +87,9 @@ ignore = [
     "INP001",  # scripts are not a package — no __init__.py needed
     "T201",    # print() is the legitimate output mechanism for CLI scripts
 ]
+"notebooks/**" = [
+    "T201",    # print() is how a notebook cell reports what it loaded
+]
 "tests/**" = [
     "S101",    # assert in tests
     "ARG",     # fixture / parametrize args are sometimes unused in some cases
@@ -91,6 +101,13 @@ ignore = [
 python_version = "3.12"
 strict = true
 ignore_missing_imports = true
+
+# idd-figures ships a py.typed marker but its functions carry no annotations, so strict mode
+# rejects every call into it wherever the package is installed (and accepts them in the
+# pre-commit hook's env, where it is absent). Skipping it makes both agree.
+[[tool.mypy.overrides]]
+module = ["idd_figures", "idd_figures.*"]
+follow_imports = "skip"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

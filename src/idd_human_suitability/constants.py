@@ -6,7 +6,11 @@ No absolute path lives here. Absolute roots come from the gitignored ``paths.yam
 
 from __future__ import annotations
 
-from typing import Final
+from types import MappingProxyType
+from typing import TYPE_CHECKING, Final
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
 
 # Keys of paths.yaml. Every key is documented in paths.yaml.example.
 OUTPUT_ROOT_KEY: Final = "project_output_root"
@@ -29,6 +33,30 @@ OVERTURE_WATER_ROOT_KEY: Final = "overture_water_root"
 ADMIN2_INCOME_ROOT_KEY: Final = "admin2_income_root"
 """Admin-2 income and consumption forecast tables."""
 
+# Releases and versions in use. Each is a folder or file name component, which is why it is
+# named here and nowhere else; a notebook's parameter cell reads them from here. They stay
+# until Bobby changes them (set 2026-11-11).
+ADMIN_RELEASE: Final = "2024_07_29"
+"""Admin shapefile release: ``<admin_shapefile_root>/<release>/``."""
+GBD_HIERARCHY: Final = "gbd_2023"
+"""The GBD hierarchy that says which region a country is in."""
+BUILDING_SOURCES: Final[Mapping[str, str]] = MappingProxyType(
+    {"ghsl": "ghsl_r2023a", "microsoft": "microsoft_v8"}
+)
+"""Building type as a person names it -> its folder under ``<building_tiles_root>/<res>m/``."""
+
+# Location hierarchies: <raking_root>/<fragment>. idd_spatial_analysis.boundaries.load_hierarchy
+# reads the same files but returns only the id columns; the names, ISO3 codes and regions
+# need the file itself.
+HIERARCHY_FILE: Final = "gbd-inputs/hierarchy_{hierarchy}.parquet"
+GBD_COUNTRY_LEVEL: Final = 3
+"""``level`` of a country in a GBD hierarchy (0 global, 1 super-region, 2 region)."""
+LOCATION_NAME_COLUMN: Final = "location_name"
+IHME_LOC_ID_COLUMN: Final = "ihme_loc_id"
+"""ISO3 code for a country row."""
+REGION_ID_COLUMN: Final = "region_id"
+REGION_NAME_COLUMN: Final = "region_name"
+
 # Climate: <climate_root>/<fragment>. Both layouts were confirmed on disk on 2026-11-11
 # (historical years as four digits, draws as three zero-padded digits).
 CLIMATE_HISTORICAL_FILE: Final = "raw/historical/{variable}/{year}_era5.nc"
@@ -37,7 +65,10 @@ CLIMATE_SCENARIO_FILE: Final = "{scenario}/{variable}/{draw}.nc"
 # Building tiles: <building_tiles_root>/<fragment>. The tile file layout was confirmed on
 # disk on 2026-11-11 for one source and period at 100 m.
 TILE_INDEX_FILE: Final = "{resolution}m/tile_index.parquet"
-BUILDING_TILE_FILE: Final = "{resolution}m/{source}/{period}/{block_key}_{band}.tif"
+BUILDING_SOURCE_DIR: Final = "{resolution}m/{source}"
+"""Holds one folder per period, named ``<year>q<quarter>``."""
+BUILDING_PERIOD_DIR: Final = BUILDING_SOURCE_DIR + "/{period}"
+BUILDING_TILE_FILE: Final = BUILDING_PERIOD_DIR + "/{block_key}_{band}.tif"
 
 # Population: <population_root>/<fragment>. Confirmed on disk on 2026-11-11: one file per
 # year, always named <year>q1.tif. The 100 m files are virtual mosaics of the model's tiles,
@@ -63,6 +94,13 @@ ADMIN2_MEDIAN_CONSUMPTION_FILENAME: Final = (
 ADMIN2_CONSUMPTION_DISTRIBUTION_FILENAME: Final = (
     "admin2_consumppc_distribution_estimates_scenarios_fixQAT.csv"
 )
+# Columns of the admin-2 income tables
+YEAR_ID_COLUMN: Final = "year_id"
+ISO3_COLUMN: Final = "country_ISO3"
+SCENARIO_COLUMN: Final = "scenario"
+GDPPC_COLUMN: Final = "gdppc_mean"
+POP_MASKING_FLAG_COLUMN: Final = "pop_masking_flag"
+ZERO_POP_MASKING_FLAG_COLUMN: Final = "zero_pop_masking_flag"
 
 # Top-level folders of the output node: <project_output_root>/<folder>
 REFERENCES_DIR: Final = "00-references"

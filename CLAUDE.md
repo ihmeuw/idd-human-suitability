@@ -68,6 +68,7 @@ packages; this repo imports it.
 - `src/idd_human_suitability/paths.py`: `load_paths()` / `root(key)`, the only
   readers of `paths.yaml`.
 - `src/idd_human_suitability/lib/`: shared functions used across stages.
+  `lib/figures/` holds every figure function; each is built on idd-figures.
 - `src/idd_human_suitability/NN_<name>/`: one subfolder per pipeline stage,
   added when a stage exists. A stage reads the previous stage's output node
   and does not import from another stage.
@@ -130,9 +131,22 @@ different matter: none is created until there is a clear pipeline (Bobby,
 
 ## Notebooks
 
-Notebooks only call repo functions. A notebook in `notebooks/vignettes/`
-defines no function of its own: a function needed there is written in `lib/`
-with a unit test first, then imported.
+Rules from Bobby (2026-11-11):
+
+1. A notebook built together with Bobby goes in `notebooks/scratch/`. It may
+   contain function definitions and inline plotting.
+2. A notebook anywhere else contains no `def`, and no plot that is not made
+   with idd-figures through a function imported from this repo's
+   `lib/figures/` (or a folder called `figures` inside another folder of
+   `lib/`).
+3. A notebook built together starts with the autoreload magics
+   (`%load_ext autoreload`, `%autoreload 2`), so a function built out in
+   `lib/` from the notebook work takes effect as it is edited.
+
+A function that has settled moves from the notebook to `lib/` with a unit
+test. Notebooks run on the kernel `idd-human-suitability (.venv)`. Outputs are
+stripped at commit by the hook, which also strips the working copy; run the
+notebook again to get them back.
 
 ## Literature: `00-references/habitability_refs` on the output node
 

@@ -10,6 +10,7 @@ src/idd_human_suitability/
   constants.py     relative path fragments, paths.yaml key names, column names
   paths.py         reads paths.yaml (the only file with absolute paths)
   lib/             shared functions used across pipeline stages
+    figures/       figure functions, built on idd-figures
   NN_<name>/       one subfolder per pipeline stage (added as stages exist)
 tests/             mirrors the source tree; tests/qc/ holds pipeline QC checks
 notebooks/
